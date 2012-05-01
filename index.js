@@ -29,23 +29,29 @@ exports.makeLocalSnapshot = function ( opts )
     return new ( require ( "./lib/localsnap" ).LocalSnapshot ) ( opts );
 };
 
-exports.makeKnoxSnaphot = function ( opts )
+exports.makeS3Snaphot = function ( opts )
 {
+    opts.dir   = opts.bucket;
+    opts.$File = require ( "./lib/s3file" )
+    (
+        new ( require ( "awssum" ).load ( "amazon/s3" ) )
+            ( opts.key, opts.secret, opts.account, opts.region )
+    );
+
     validateOptions ( opts );
-    return new ( require ( "./lib/knoxsnap" ).KnoxSnaphot ) ( opts );
+    return new ( require ( "./lib/localsnap" ).LocalSnapshot ) ( opts );
 };
 
 
 
-////////    utils.
+    ////
 
 function validateOptions ( opts, obj )
 {
     var key;
-    if ( opts )
-        for ( key in opts )
-            if ( opts.hasOwnProperty ( key ) && typeof opts [ key ] === 'undefined' )
-                throw new Error ( "Undefined constructor option : " + key );
+    if ( opts ) for ( key in opts )
+        if ( opts.hasOwnProperty ( key ) && typeof opts [ key ] === 'undefined' )
+            throw new Error ( "Undefined constructor option : " + key );
 }
 
 
