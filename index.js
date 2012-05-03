@@ -72,8 +72,8 @@ exports.makeDirty = function ( name )
 {
     return exports.makeDivan
     ({
-        snapshot    : exports.makeLocalSnapshot ({ dir : './', name : name + '-snap' }),
-        aof         : exports.makeLocalAOF ({ dir : './', name : name + '-aof' })
+        snapshot    : exports.makeLocalSnapshot ({ dir : './', name : name + '-snap', compact : true }),
+        aof         : exports.makeLocalAOF ({ dir : './', name : name + '-aof', compact : true })
     });
 };
 
