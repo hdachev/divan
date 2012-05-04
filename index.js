@@ -32,14 +32,11 @@ exports.makeLocal = function ( namespace, designdir )
 
 ////////    Components.
 
-    ////    Divan factory.
-
 exports.makeDivan = function ( opts )
 {
     validateOptions ( opts );
     return new ( require ( "./lib/divan" ) ) ( opts );
 };
-
 
     ////    .aof options
 
@@ -48,7 +45,6 @@ exports.makeLocalAOF = function ( opts )
     validateOptions ( opts );
     return new ( require ( "./lib/aof" ) ) ( opts, require ( "./lib/file" ) );
 };
-
 
     ////    .snapshot options
 
@@ -73,18 +69,20 @@ exports.makeS3Snaphot = function ( opts )
     );
 };
 
-
     ////    .views options
 
 exports.readDesignDir = function ( opts )
 {
     validateOptions ( opts );
-    return require ( "./lib/mrutils" ).readDesignDir ( opts.dir, require ( "./lib/mrnaive" ) );
+    return require ( "./lib/mrutils" ).readDesignDir ( opts.dir, function ( mapper, reducer )
+    {
+        return new ( require ( "./lib/mrview" ) ) ( mapper, reducer, new ( require ( "./lib/rcache" ) ) );
+    });
 };
 
 
 
-    ////
+////////    Utils.
 
 function validateOptions ( opts, obj )
 {
