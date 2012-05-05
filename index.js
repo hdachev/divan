@@ -76,7 +76,13 @@ exports.readDesignDir = function ( opts )
     validateOptions ( opts );
     return require ( "./lib/mrutils" ).readDesignDir ( opts.dir, function ( mapper, reducer )
     {
-        return new ( require ( "./lib/mrview" ) ) ( mapper, reducer, new ( require ( "./lib/rcache" ) ) );
+        return new ( require ( "./lib/mrview" ) )
+        (
+            mapper,
+            reducer,
+            new ( require ( "./lib/mindex" ) ),
+            new ( require ( "./lib/rcache" ) )
+        );
     });
 };
 
