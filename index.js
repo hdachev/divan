@@ -4,7 +4,7 @@
 ////////    Quick configs.
 
 /**
-    .makeLocal :
+    .cwd :
 
     Make a divan with local compacted append-only and snapshot files,
         namespace works in the same way it does for `dirty`.
@@ -18,7 +18,7 @@
         map/reduce view definitions.
  **/
 
-exports.makeLocal = function ( namespace, designdir )
+exports.cwd = function ( namespace, designdir )
 {
     return exports.makeDivan
     ({
