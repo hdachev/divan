@@ -1,5 +1,6 @@
 
 
+var sugar = {};
 
 ////////    Quick configs.
 
@@ -12,20 +13,29 @@
     @param namespace, string
         the filename prefix for the db's snapshot and append-only files,
         both will be put in the current working directory.
-
-    @designdir designdir, string
-        optional path of a directory containing .json and/or .js
-        map/reduce view definitions.
  **/
 
-exports.cwd = function ( namespace, designdir )
+exports.cwd = function ( ns )
 {
     return exports.makeDivan
     ({
-        snapshot    : exports.makeLocalSnapshot ({ dir : './', name : namespace + '-snap', compact : true }),
-        aof         : exports.makeLocalAOF ({ dir : './', name : namespace + '-aof', compact : true }),
-        views       : ( designdir && exports.readDesignDir ({ dir : designdir }) ) || null
+        snapshot    : exports.makeLocalSnapshot ({ dir : './', name : ns, compact : true }),
+        aof         : exports.makeLocalAOF ({ dir : './', name : ns, compact : true }),
+        verbose     : true
     });
+};
+
+sugar.design = function ( dir )
+{
+    var self  = this,
+        views = exports.readDesignDir ({ dir : dir });
+
+    Object.keys ( views ).forEach ( function ( name )
+    {
+        self.addView ( name, views [ name ] );
+    });
+
+    return self;
 };
 
 
@@ -35,7 +45,14 @@ exports.cwd = function ( namespace, designdir )
 exports.makeDivan = function ( opts )
 {
     validateOptions ( opts );
-    return new ( require ( "./lib/divan" ) ) ( opts );
+    var db = new ( require ( "./lib/divan" ) ) ( opts );
+
+    Object.keys ( sugar ).forEach ( function ( prop )
+    {
+        db [ prop ] = sugar [ prop ];
+    });
+
+    return db;
 };
 
     ////    .aof options
@@ -74,16 +91,18 @@ exports.makeS3Snaphot = function ( opts )
 exports.readDesignDir = function ( opts )
 {
     validateOptions ( opts );
-    return require ( "./lib/mrutils" ).readDesignDir ( opts.dir, function ( mapper, reducer )
-    {
-        return new ( require ( "./lib/mrview" ) )
-        (
-            mapper,
-            reducer,
-            new ( require ( "./lib/mindex" ) ),
-            new ( require ( "./lib/rcache" ) )
-        );
-    });
+    return require ( "./lib/mrutils" ).readDesignDir ( opts.dir, exports.mr );
+};
+
+exports.mr = function ( mapper, reducer )
+{
+    return new ( require ( "./lib/mrview" ) )
+    (
+        mapper,
+        reducer,
+        new ( require ( "./lib/mindex" ) ),
+        new ( require ( "./lib/rcache" ) )
+    );
 };
 
 
