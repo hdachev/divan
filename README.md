@@ -94,21 +94,20 @@ Everything but `group_level` and `include_docs`.
 ### lazy views and reduce caching
 
 Instead of populating views immediately,
-divan waits for your first query
-before producing map result for a view.
-This means that you can
-have as many designs as you want,
-if only use a few, the rest won't eat up memory.
+divan maps all documents for a view on first `.query()`.
+This means that you can have as many designs as you want,
+if you only use a few the rest won't eat up memory.
 
-Further, reduce results are only computed and cached
+Also, reduce results are only computed and cached
 for the ranges of a view that you actually access.
-Once warmed up, the caches are invalidated and rebuild
-very quickly on writes and deletes.
+Once warmed up, the caches are invalidated and rebuilt
+very quickly on writes and deletes,
+because divan caches intermediate reduce results.
 
-Brief, if you want to fully warm up a reduce view,
+Brief, if you want to **fully warm up a reduce view**,
 query it with `group=true` or `group=false`
-depending on whether you'll ever use ungrouped results,
-and without specifying a key-range.
+(depending on whether you'll ever use ungrouped results),
+without specifying a key-range.
 
 
 ### what else
