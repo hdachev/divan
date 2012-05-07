@@ -1,6 +1,7 @@
 
 
-Fast **in-memory**, **in-process** key-value store for node
+Fast **in-process**
+**in-memory** key-value store for node
 with **snapshot and AOF persistance**
 and **CouchDB-style map-reduce views**.
 Just make sure your data fits in memory,
@@ -12,7 +13,7 @@ for a dataset with more than 500K docs.
 
 - some tasks and workloads just don't deserve their own Couch but can benefit from a similar data-model.
 - not a Couch - which among other things means it doesn't do MVCC, so delete and update as much as you want.
-- super fast, when fully warmed up serves thousands of queries per second, and because it runs in-process, there's no network latency.
+- super fast - when fully warmed up serves thousands of queries per second, and there's no network latency.
 
 
 ### usage
