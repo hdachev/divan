@@ -100,6 +100,9 @@ exports.mr = function ( mapper, reducer )
 
 function validateOptions ( opts, obj )
 {
+    if ( !opts )
+        throw new Error ( "Undefined options object." );
+
     var key;
     if ( opts ) for ( key in opts )
         if ( opts.hasOwnProperty ( key ) && typeof opts [ key ] === 'undefined' )
