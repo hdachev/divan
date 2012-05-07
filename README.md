@@ -29,13 +29,15 @@ for a dataset with more than 500K docs.
 var divan = require ( 'divan' ),
     db = divan.cwd ( 'friends' );
 
-//  Save some docs, generate your own id-s:
+//  Save some docs, generating your own id-s:
 
-db.save ({ _id : 'don1', name : 'Don', gender : 'male' });
-db.save ({ _id : 'i.v.a.n', name : 'Ivan', gender : 'male' });
-db.save ({ _id : 'samantha', name : 'Sam', gender : 'female' });
+db.save ({ _id : 'don1', type : 'person', name : 'Don', gender : 'male' });
+db.save ({ _id : 'samantha', type : 'person', name : 'Sam', gender : 'female' });
+db.save ({ _id : 'i.v.a.n', type : 'person', name : 'Ivan', gender : 'male' });
 
-//  Register a view:
+//  These will be flushed to the AOF and then later compacted as a db snapshot.
+
+//  Now register a view:
 
 db.addView
 (
@@ -44,7 +46,8 @@ db.addView
     (
         function ( doc, emit )
         {
-            emit ( doc.gender, 1 );
+            if ( doc.type === 'person' )
+                emit ( doc.gender, 1 );
         },
         function ( k, v )
         {
