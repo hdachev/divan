@@ -4,17 +4,6 @@ var sugar = {};
 
 ////////    Quick configs.
 
-/**
-    .cwd :
-
-    Make a divan with local compacted append-only and snapshot files,
-        namespace works in the same way it does for `dirty`.
-
-    @param namespace, string
-        the filename prefix for the db's snapshot and append-only files,
-        both will be put in the current working directory.
- **/
-
 exports.cwd = function ( ns )
 {
     return exports.makeDivan
