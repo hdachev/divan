@@ -1,14 +1,11 @@
 
 
-fast **in-memory**, **in-process** key-value store for node
+Fast **in-memory**, **in-process** key-value store for node
 with **snapshot and AOF persistance**
 and **CouchDB-style map-reduce views**.
-
 Just make sure your data fits in memory,
-currently I wouldn't recommend it
-for a dataset with more than 500K docs,
-but considering ways to improve memory consumption,
-perhaps by flushing part of the indices to disk.
+currently I wouldn't recommend divan
+for a dataset with more than 500K docs.
 
 
 ### why? because!
@@ -22,7 +19,7 @@ perhaps by flushing part of the indices to disk.
 
     npm install divan
 
-**./index.js**
+**index.js**
 
 ```javascript
 
@@ -114,7 +111,7 @@ and without specifying a key-range.
 ### what else
 
 - You can iterate your entire db with `db.forEach(func)`
-- If you look at the sources, you'll see that there's an option to persist your snapshots on Amazon S3
-- By using `db.addView("view-name", ["source-view", "other-source-view"], viewObj)` you can do chained map/reduce
+- If you look at the sources, you'll see that there's an option to have your snapshots on Amazon S3.
+- By using `db.addView("view-name", ["source-view", "other-source-view"], viewObj)` you can do chained map/reduce.
 
 
