@@ -1,9 +1,6 @@
 
 
-### What?
-
-Real fast **in-memory**
-**in-process** key-value store for node
+fast **in-memory**, **in-process** key-value store for node
 with **snapshot and AOF persistance**
 and **CouchDB-style map-reduce views**.
 
@@ -14,14 +11,14 @@ but considering ways to improve memory consumption,
 perhaps by flushing part of the indices to disk.
 
 
-### Why? Because:
+### why? because!
 
 - some tasks and workloads just don't deserve their own Couch but can benefit from a similar data-model.
 - not a Couch - which among other things means it doesn't do MVCC, so delete and update as much as you want.
 - super fast, when fully warmed up serves thousands of queries per second, and because it runs in-process, there's no network latency.
 
 
-### Usage:
+### usage
 
     npm install divan
 
@@ -89,12 +86,12 @@ Note that when using .js docs,
 the `emit` function as the second parameter.
 
 
-### CouchDB view API coverage.
+### CouchDB view API coverage
 
 Everything but `group_level` and `include_docs`.
 
 
-### Lazy views and reduce results caching
+### lazy views and reduce caching
 
 Instead of populating views immediately,
 divan waits for your first query
@@ -114,10 +111,10 @@ depending on whether you'll ever use ungrouped results,
 and without specifying a key-range.
 
 
-### What else is there.
+### what else
 
-- You can iterate your entire db with `db.forEach(func)`.
-- If you look at the sources, you'll see that there's an option to persist your snapshots on Amazon S3.
-- By using `db.addView("view-name", ["source-view", "other-source-view"], viewObj)` you can do chained map/reduce.
+- You can iterate your entire db with `db.forEach(func)`
+- If you look at the sources, you'll see that there's an option to persist your snapshots on Amazon S3
+- By using `db.addView("view-name", ["source-view", "other-source-view"], viewObj)` you can do chained map/reduce
 
 
