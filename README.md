@@ -115,6 +115,6 @@ without specifying a key-range.
 
 - You can iterate your entire db with `db.forEach(func)`
 - If you look at the sources, you'll see that there's an option to have your snapshots on Amazon S3.
-- By using `db.addView("view-name", ["source-view", "other-source-view"], viewObj)` you can do chained map/reduce.
+- By using `db.addView("view-name", ["source-view", "other-source-view"], viewObj)` you can perform chained map/reduce, although its not optimized and is really slow right now.
 
 
