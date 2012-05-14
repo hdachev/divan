@@ -52,6 +52,18 @@ exports.makeLocalAOF = function ( opts )
     return new ( require ( "./lib/aof" ) ) ( opts, require ( "./lib/file" ) );
 };
 
+exports.makeRedisAOF = function ( opts )
+{
+    var client = opts.client;
+    opts.dir = opts.bucket;
+    validateOptions ( opts );
+
+    if ( !client ) client = require ( "redis" ).createClient ( opts.port, opts.host, opts );
+    if ( opts.pass ) client.AUTH ( opts.pass );
+
+    return new ( require ( "./lib/aof" ) ) ( opts, require ( "./lib/redfile" ) ( client ) );
+};
+
     ////    .snapshot options
 
 exports.makeLocalSnapshot = function ( opts )
