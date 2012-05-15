@@ -118,3 +118,7 @@ without specifying a key-range.
 - By using `db.addView("view-name", ["source-view", "other-source-view"], viewObj)` you can perform chained map/reduce, although its not optimized and is really slow right now.
 
 
+### license
+
+MIT
+
