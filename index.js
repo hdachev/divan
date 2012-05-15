@@ -1,8 +1,11 @@
 
 
-var sugar = {};
 
 ////////    Quick configs.
+
+var sugar = {};
+
+    ////    Make a divan with a local append-only and snapshot files.
 
 exports.cwd = function ( ns )
 {
@@ -10,9 +13,43 @@ exports.cwd = function ( ns )
     ({
         snapshot    : exports.makeLocalSnapshot ({ dir : './', name : ns, compact : true }),
         aof         : exports.makeLocalAOF ({ dir : './', name : ns, compact : true }),
-        verbose     : true
+        verbose     : !!exports.debug
     });
 };
+
+    ////    Make a divan with a local AOF and snapshots on Amazon S3.
+
+exports.s3 = function ( key, secret, account, region, bucket )
+{
+    if ( !bucket )
+    {
+        bucket = region;
+        region = "us-east-1";
+    }
+
+    return exports.makeDivan
+    ({
+        snapshot            : exports.makeS3Snaphot
+        ({
+            key             : key,
+            secret          : secret,
+            account         : account,
+            region          : region,
+            bucket          : bucket,
+            compact         : true
+        }),
+
+        aof                 : exports.makeLocalAOF ({ dir : './', name : 's3.' + bucket, compact : true }),
+        verbose             : !!exports.debug,
+        snapshotInterval    : 3600 * 1000
+    });
+};
+
+
+
+////////    Sugary extensions for divan instances' public API.
+
+    ////    Add all views from a design directory.
 
 sugar.design = function ( dir )
 {
@@ -29,7 +66,24 @@ sugar.design = function ( dir )
 
 
 
-////////    Components.
+////////    Helpers.
+
+    ////    Make a map/reduce view from two functions.
+
+exports.mr = function ( mapper, reducer )
+{
+    return new ( require ( "./lib/mrview" ) )
+    (
+        mapper,
+        reducer,
+        new ( require ( "./lib/mindex" ) ),
+        new ( require ( "./lib/rcache" ) )
+    );
+};
+
+
+
+////////    Components for advanced configs.
 
 exports.makeDivan = function ( opts )
 {
@@ -95,22 +149,11 @@ exports.readDesignDir = function ( opts )
     return require ( "./lib/mrutils" ).readDesignDir ( opts.dir, exports.mr );
 };
 
-exports.mr = function ( mapper, reducer )
-{
-    return new ( require ( "./lib/mrview" ) )
-    (
-        mapper,
-        reducer,
-        new ( require ( "./lib/mindex" ) ),
-        new ( require ( "./lib/rcache" ) )
-    );
-};
 
 
+////////    Throw errors for bad options to help debug.
 
-////////    Utils.
-
-function validateOptions ( opts, obj )
+function validateOptions ( opts )
 {
     if ( !opts )
         throw new Error ( "Undefined options object." );
