@@ -118,19 +118,18 @@ module.exports = function ( docCount, module )
                     should.deepEqual
                     (
                         data.rows,
-                        [
+                        sort
+                        ([
                             { key : 'all', value : ALL_SQ_SUM },
                             { key : 'odd', value : ODD_SQ_SUM }
-                        ]
+                        ])
                     );
 
                 else
                     should.deepEqual
                     (
                         data.rows,
-                        [
-                            { key : 'all', value : ALL_SQ_SUM }
-                        ]
+                        [{ key : 'all', value : ALL_SQ_SUM }]
                     );
             }
         }
@@ -153,29 +152,29 @@ module.exports = function ( docCount, module )
                     should.deepEqual
                     (
                         data.rows,
-                        [
+                        sort
+                        ([
                             { key : ODD_SQ_SUM, id : 'odd', value : 'odd' },
                             { key : ALL_SQ_SUM, id : 'all', value : 'all' }
-                        ]
+                        ])
                     );
 
                 else if ( docCount > 1 )
                     should.deepEqual
                     (
                         data.rows,
-                        [
+                        sort
+                        ([
                             { key : ALL_SQ_SUM, id : 'all', value : 'all' },
                             { key : ODD_SQ_SUM, id : 'odd', value : 'odd' }
-                        ]
+                        ])
                     );
 
                 else
                     should.deepEqual
                     (
                         data.rows,
-                        [
-                            { key : ALL_SQ_SUM, id : 'all', value : 'all' }
-                        ]
+                        [{ key : ALL_SQ_SUM, id : 'all', value : 'all' }]
                     );
             }
         }
@@ -263,5 +262,30 @@ module.exports = function ( docCount, module )
 
     .export ( module );
 };
+
+    ////
+
+function sort ( arr )
+{
+    arr.sort ( order );
+    return arr;
+}
+
+function order ( a, b )
+{
+    var akey = JSON.stringify ( a.key ),
+        bkey = JSON.stringify ( b.key );
+
+    if ( akey < bkey )
+        return -1;
+    if ( akey > bkey )
+        return 1;
+    if ( a.id < b.id )
+        return -1;
+    if ( a.id > b.id )
+        return 1;
+
+    return 0;
+}
 
 
