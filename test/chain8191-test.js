@@ -1,2 +1,2 @@
 
-// require ( './chains' ) ( 8191, module );
+require ( './chains' ) ( 8191, module );
