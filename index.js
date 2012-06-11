@@ -139,7 +139,7 @@ exports.makeS3Snaphot = function ( opts )
                 accessKeyId : opts.key,
                 secretAccessKey : opts.secret,
                 region : opts.region
-            });
+            })
         )
     );
 };

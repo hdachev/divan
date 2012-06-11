@@ -1,5 +1,5 @@
 {   "name" : "divan",
-    "version" : "0.0.1",
+    "version" : "0.0.2",
     "description" : "persistant key-value store for node with CouchDB-style views",
     "keywords" : [ "db", "data", "key", "value", "store", "map", "reduce", "views", "couch" ],
     "author" : "Hristo Dachev <tutini@gmail.com>",
