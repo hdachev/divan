@@ -19,7 +19,7 @@ exports.cwd = function ( ns )
 
     ////    Make a divan with a local AOF and snapshots on Amazon S3.
 
-exports.s3 = function ( key, secret, account, region, bucket )
+exports.s3 = function ( key, secret, region, bucket )
 {
     if ( !bucket )
     {
@@ -33,7 +33,6 @@ exports.s3 = function ( key, secret, account, region, bucket )
         ({
             key             : key,
             secret          : secret,
-            account         : account,
             region          : region,
             bucket          : bucket,
             compact         : true
@@ -135,8 +134,12 @@ exports.makeS3Snaphot = function ( opts )
         opts,
         require ( "./lib/s3file" )
         (
-            new ( require ( 'awssum' ).load ( 'amazon/s3' ) )
-                ( opts.key, opts.secret, opts.account, opts.region )
+            new ( require ( 'awssum' ).load ( 'amazon/s3' ).S3 )
+            ({
+                accessKeyId : opts.key,
+                secretAccessKey : opts.secret,
+                region : opts.region
+            });
         )
     );
 };
