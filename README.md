@@ -15,6 +15,8 @@ for a dataset with more than 500K docs.
 - not a Couch - which among other things means it doesn't do MVCC, so delete and update as much as you want.
 - super fast - when fully warmed up serves thousands of queries per second, and there's no network latency.
 
+[![Build Status](https://secure.travis-ci.org/hdachev/divan.png?branch=master)](http://travis-ci.org/hdachev/divan)
+
 
 ### usage
 

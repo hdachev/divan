@@ -16,5 +16,8 @@
         "vows" : "0.6.x",
         "fakeredis" : "0.0.x",
         "should" : "0.6.x"
+    },
+    "scripts" : {
+        "test" : "vows"
     }
 }
